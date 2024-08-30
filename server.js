@@ -67,17 +67,19 @@ app.get('/shoes', (req, res) => {
         { name: "Fifty-Inch Heels", price: 175, type: "heel" }
     ];
    
+    let minPrice = req.query
+    let maxPrice = req.query
+    let shoeType = req.query
+    let filtered = shoes
 
-    minPrice = parseInt(req.query.minPrice)
-    maxPrice = parseInt(req.query.maxPrice)
-
-    const filtered = shoes.filter(shoe => shoe.price >= minPrice && shoe.price <= maxPrice)
-
-   if (minPrice === null && maxPrice === null) {
-    res.send(shoes)
-   } else {
-    res.send(shoes.filter(filtered))
-   }
+    if (minPrice) {
+        filtered = shoes.filter(shoe => shoe.price >= parseInt(minPrice))
+    } if (maxPrice) {
+        filtered = shoes.filter(shoe => shoe.price <= parseInt(maxPrice))
+    } if (type) {
+        filtered = shoes.filter(shoe => shoe.type.toLowerCase() === type.toLowerCase())
+    }
+   res.json(filtered)
 })
 
 
